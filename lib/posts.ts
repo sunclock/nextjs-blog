@@ -5,7 +5,6 @@ import path from 'path'
 import matter from 'gray-matter'
 
 const postsDirectory = path.join(process.cwd(), 'posts')
-
 export function getSortedPostsData() {
 	// you can fetch the data from other sources, like an external API endpoint
 	// const res = await fetch('..')
@@ -24,7 +23,7 @@ export function getSortedPostsData() {
 		const fileContents = fs.readFileSync(fullPath, 'utf8')
 
 		// Use gray-matter to parse the post metadata section
-		const matterResult = matter(fileContents)
+		const matterResult: any = matter(fileContents)
 
 		// Combine the data with the id
 		return {
@@ -33,13 +32,11 @@ export function getSortedPostsData() {
 		}
 	})
 	// Sort posts by date
-	return allPostsData.sort(({ date: a }, { date: b }) => {
-		if (a < b) {
+	return allPostsData.sort((a, b) => {
+		if (a.date < b.date) {
 			return 1
-		} else if (a > b) {
-			return -1
 		} else {
-			return 0
+			return -1
 		}
 	})
 }
@@ -69,7 +66,7 @@ export function getAllPostIds() {
 // 	})
 // }
 
-export async function getPostData(id: any) {
+export async function getPostData(id: string | string[]) {
 	const fullPath = path.join(postsDirectory, `${id}.md`)
 	const fileContents = fs.readFileSync(fullPath, 'utf8')
 
